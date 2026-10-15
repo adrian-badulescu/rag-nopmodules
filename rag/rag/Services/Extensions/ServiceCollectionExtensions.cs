@@ -1,0 +1,17 @@
+namespace rag.Services.Extensions;
+
+public static class ServiceCollectionExtensions
+{
+    public static IServiceCollection AddServices(this IServiceCollection services)
+    {
+        services.AddScoped<IChatService, ChatService>();
+        services.AddScoped<IHttpClientService, HttpClientService>();
+        services.AddTransient<IEmbeddingService, EmbeddingService>();
+        services.AddTransient<IDataIngestionService, DataIngestionService>();
+        services.AddTransient<IDataRetrievalService, DataRetrievalService>();
+        
+        return services;
+    }
+    
+    
+}
