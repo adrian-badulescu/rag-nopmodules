@@ -14,7 +14,7 @@ public static class ChatsEndpoint
             {
                 return Results.BadRequest(new {error = "Please provide a message."});
             }
-            // todo, set the response message
+            
             string responseMessage = request.Message;
 
             return Results.Ok(responseMessage);
