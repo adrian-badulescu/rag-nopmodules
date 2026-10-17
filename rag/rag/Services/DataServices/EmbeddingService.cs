@@ -16,14 +16,14 @@ public class EmbeddingService : IEmbeddingService
     {
         var requestBody = new EmbeddingRequest
         {
-            Model = "nomic-embed-text",
+            Model = "nomic-embed-text:latest",
             Prompt = embeddedData,
         };
         
         try
         {
             var httpClient = _httpClientService.GetHttpClient("LLMClient");
-            var response = await httpClient.PostAsJsonAsync<EmbeddingRequest>("api/embbedings", requestBody);
+            var response = await httpClient.PostAsJsonAsync<EmbeddingRequest>("api/embeddings", requestBody);
 
             if (!response.IsSuccessStatusCode)
             {
