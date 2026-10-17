@@ -15,7 +15,7 @@ public static class ChatsEndpoint
                 return Results.BadRequest(new {error = "Please provide a message."});
             }
             
-            string responseMessage = request.Message;
+            string responseMessage = await chatService.GetAiResponseAsync(request.Message);
 
             return Results.Ok(responseMessage);
         });
