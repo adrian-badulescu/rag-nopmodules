@@ -4,8 +4,21 @@ public class LLMConfig
 {
     public string LLMModel { get; set; } = string.Empty;
     
+    public string LocalEmbeddingModel { get; set; } = string.Empty;
+    
+    public string TaskType { get; set; } = string.Empty;
+    
+    public string EmbeddingModel { get; set; } = string.Empty;
+    
+    public int GoogleChunkSize  { get; set; } = 0;
+    
+    public int IngestDocumentBatchSize  { get; set; } = 0;
+    
+    public int TextChunkSize { get; set; } = 0;
+    
+    public int TextOverlapSize   { get; set; } = 0;
     public string PromptTemplate { get; set; } = string.Empty;
-
+    
     public LLMResponseMode  LLMResponseMode { get; set; }
 }
 

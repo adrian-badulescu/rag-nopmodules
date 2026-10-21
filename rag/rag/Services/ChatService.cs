@@ -7,13 +7,18 @@ public class ChatService : IChatService
 {
     private readonly IHttpClientService  _httpClientService;
     private readonly LLMConfig _options;
+    private readonly EndpointsConfig _endpoints;
     private readonly IDataRetrievalService _retrievalService;
     
     
-    public ChatService(IHttpClientService  httpClientService,  IOptions<LLMConfig> options, IDataRetrievalService retrievalService)
+    public ChatService(IHttpClientService  httpClientService, 
+        IOptions<LLMConfig> options, 
+        IOptions<EndpointsConfig> endpoints, 
+        IDataRetrievalService retrievalService)
     {
         _httpClientService = httpClientService;
         _options = options.Value;
+        _endpoints = endpoints.Value;
         _retrievalService = retrievalService;
     }
 
@@ -24,25 +29,34 @@ public class ChatService : IChatService
         
         string promptFinal = string.Format(_options.PromptTemplate, dbResult, prompt);
         
-        AIChatRequest request = new AIChatRequest
+        var requestBody = new
         {
-            Model = _options.LLMModel,
-            Prompt = promptFinal,
-            Stream = _options.LLMResponseMode.Stream
+            contents = new[]
+            {
+                new
+                {
+                    parts = new[]
+                    {
+                        new { text = promptFinal }
+                    }
+                }
+            }
         };
         
         try
         {
             var httpClient = _httpClientService.GetHttpClient("LLMClient");
-            var response = await httpClient.PostAsJsonAsync("api/generate", request);
+            var response = await httpClient.PostAsJsonAsync(_endpoints.LLM.RelativePathEmbeddings, requestBody);
             
             if (!response.IsSuccessStatusCode)
             {
-                return "Error in communication with the LLM server.";
+                return "Error in communication with the Google Gemini API.";
             }
             
-            var result =  await response.Content.ReadFromJsonAsync<OllamaResponse>();
-            return result?.Response ?? "No response returned from the LLM server.";
+            var result =  await response.Content.ReadFromJsonAsync<SingleEmbeddingResponse>();
+            return result?.Embedding?.Values ?? throw new HttpRequestException("Failed to parse embedded response.");
+            
+            return responseText ?? "No response returned from the LLM model.";
         }
         catch (Exception ex)
         {
