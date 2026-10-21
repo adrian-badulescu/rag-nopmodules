@@ -54,8 +54,10 @@ public class EmbeddingService : IEmbeddingService
         if (!textList.Any()) return new();
 
         var results = new List<float[]>();
+
+        int googleChunksNumber = _options.GoogleChunkSize;
         
-        var batches = textList.Chunk(100);
+        var batches = textList.Chunk(googleChunksNumber);
 
         try
         {
@@ -73,8 +75,7 @@ public class EmbeddingService : IEmbeddingService
                 }).ToList();
 
                 var payload = new { requests };
-
-                // 2. Facem UN SINGUR apel HTTP pentru tot lotul de maxim 100 de elemente
+                
                 var response = await httpClient.PostAsJsonAsync(batchEndpoint, payload);
             
                 if (!response.IsSuccessStatusCode)

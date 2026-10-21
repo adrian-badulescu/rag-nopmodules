@@ -53,8 +53,8 @@ public class ChatService : IChatService
                 return "Error in communication with the Google Gemini API.";
             }
             
-            var result =  await response.Content.ReadFromJsonAsync<SingleEmbeddingResponse>();
-            return result?.Embedding?.Values ?? throw new HttpRequestException("Failed to parse embedded response.");
+            var result =  await response.Content.ReadFromJsonAsync<GeminiChatResponse>();
+            var responseText = result?.Candidates?.FirstOrDefault()?.Content?.Parts?.FirstOrDefault()?.Text;
             
             return responseText ?? "No response returned from the LLM model.";
         }
