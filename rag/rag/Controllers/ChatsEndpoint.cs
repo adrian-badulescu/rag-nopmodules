@@ -10,15 +10,15 @@ public static class ChatsEndpoint
     {
         app.MapPost("/api/chat", async ([FromBody]ChatRequest request, IChatService chatService) =>
         {
-            if (string.IsNullOrWhiteSpace(request.Message))
+            if (string.IsNullOrWhiteSpace(request.Message) || request.Message.Length > 1000)
             {
-                return Results.BadRequest(new {error = "Please provide a message."});
+                return Results.BadRequest(new {error = "Please provide a message or a shorter one"});
             }
             
             string responseMessage = await chatService.GetAiResponseAsync(request.Message);
 
             return Results.Ok(responseMessage);
-        });
+        }).RequireRateLimiting("chat-policy");
 
         return app;
     }

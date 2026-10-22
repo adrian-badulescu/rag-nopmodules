@@ -4,7 +4,9 @@ public class LLMConfig
 {
     public string LLMModel { get; set; } = string.Empty;
     
-    public string LocalEmbeddingModel { get; set; } = string.Empty;
+    public int MaxOutputTokens { get; set; } = 0;
+    
+    public int Temperature { get; set; } = 0;
     
     public string TaskType { get; set; } = string.Empty;
     

@@ -40,13 +40,18 @@ public class ChatService : IChatService
                         new { text = promptFinal }
                     }
                 }
+            },
+            generationConfig = new
+            {
+                maxOutputTokens = _options.MaxOutputTokens,
+                temperature = _options.Temperature,
             }
         };
         
         try
         {
             var httpClient = _httpClientService.GetHttpClient("LLMClient");
-            var response = await httpClient.PostAsJsonAsync(_endpoints.LLM.RelativePathEmbeddings, requestBody);
+            var response = await httpClient.PostAsJsonAsync(_endpoints.LLM.RelativePathChat, requestBody);
             
             if (!response.IsSuccessStatusCode)
             {
