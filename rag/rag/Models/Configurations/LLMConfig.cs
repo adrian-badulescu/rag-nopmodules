@@ -8,6 +8,8 @@ public class LLMConfig
     
     public int Temperature { get; set; } = 0;
     
+    public int OutputDimensionality { get; set; } = 0;
+    
     public string TaskType { get; set; } = string.Empty;
     
     public string EmbeddingModel { get; set; } = string.Empty;

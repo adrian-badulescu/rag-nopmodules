@@ -24,6 +24,7 @@ public class EmbeddingService : IEmbeddingService
         {
             model = _options.EmbeddingModel,
             taskType = _options.TaskType,
+            output_dimensionality = _options.OutputDimensionality,
             content = new { parts = new[] { new { text = embeddedData } } }
         };
         
@@ -71,6 +72,7 @@ public class EmbeddingService : IEmbeddingService
                 {
                     model = _options.EmbeddingModel,
                     taskType = _options.TaskType,
+                    output_dimensionality = _options.OutputDimensionality,
                     content = new { parts = new[] { new { text = t } } }
                 }).ToList();
 
