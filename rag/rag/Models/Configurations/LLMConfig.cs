@@ -6,7 +6,7 @@ public class LLMConfig
     
     public int MaxOutputTokens { get; set; } = 0;
     
-    public int Temperature { get; set; } = 0;
+    public float Temperature { get; set; } = 0;
     
     public int OutputDimensionality { get; set; } = 0;
     

@@ -13,10 +13,8 @@ public class RagDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // 1. Spunem lui EF Core să asigure existența extensiei pgvector în Postgres
         modelBuilder.HasPostgresExtension("vector");
 
-        // 2. Configurăm dimensiunea vectorului pentru proprietatea Embedding
         modelBuilder.Entity<TextChunk>(entity =>
         {
             entity.Property(b => b.Embedding)
