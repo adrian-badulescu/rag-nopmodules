@@ -55,7 +55,9 @@ public class ChatService : IChatService
             
             if (!response.IsSuccessStatusCode)
             {
-                return "Error in communication with the Google Gemini API.";
+                var errorContent = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Google API Error Details: {errorContent}");
+                return $"Error in communication with Google Gemini API: {response.StatusCode} - {errorContent}";
             }
             
             var result =  await response.Content.ReadFromJsonAsync<GeminiChatResponse>();

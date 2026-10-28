@@ -37,7 +37,7 @@ public class DataIngestionService : IDataIngestionService
                 .ToList();
             
             if (!chunks.Any()) return;
-            
+            // groups database transaction number
             int batchSize = _llmOptions.IngestDocumentBatchSize;
             
             var chunkBatches = chunks.Chunk(batchSize);
